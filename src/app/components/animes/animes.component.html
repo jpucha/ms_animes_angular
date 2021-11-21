@@ -1,0 +1,70 @@
+<div class="container">
+    <button class="btn btn-lg btn-primary" (click)="open(content)" style="margin-bottom: 20px; margin-top: 20px">Agregar</button>
+    
+    <table class="table table-dark">
+        <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Anime</th>
+          <th scope="col">G&eacute;nero</th>
+          <th scope="col">Fecha de Creaci&oacute;n</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let anime of animes">
+          <th scope="row">{{ anime.id }}</th>
+          <td>{{ anime.nombre }}</td>
+          <td>{{ anime.genero}}</td>
+          <td>{{ anime.fechaCreacion }}</td>
+          <td><button type="button" class="btn btn-success" (click)="cargarAnime(anime, content)">Actualizar</button></td>
+          <td><button type="button" class="btn btn-danger" (click)="mostrarVentanaEliminar(anime)">Eliminar</button></td>
+        </tr>
+        </tbody>
+      </table>
+    
+      <div class="d-flex justify-content-between p-2">
+        <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize" (pageChange)="consultar()">
+        </ngb-pagination>
+      
+        <select class="custom-select" style="width: auto" [(ngModel)]="pageSize" (ngModelChange)="consultar()">
+          <option [ngValue]="2">2 registros por p&aacute;gina</option>
+          <option [ngValue]="4">4 registros por p&aacute;gina</option>
+          <option [ngValue]="6">6 registros por p&aacute;gina</option>
+        </select>
+      </div>
+
+      <ng-template #content let-modal>
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title">Formulario de Animes</h4>
+          <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form #formAnime="ngForm" (ngSubmit)="guardar(formAnime?.value)">
+            <div class="modal-body">
+            
+                <div class="form-group">
+                    <label for="txtNombre">Nombre: </label>
+                    <div class="input-group">
+                        <input id="txtNombre" class="form-control" [(ngModel)]="anime.nombre" required #nombre="ngModel" name="nombre">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="txtGenero">G&eacute;nero: </label>
+                    <div class="input-group">
+                        <input id="txtGenero" class="form-control" [(ngModel)]="anime.genero" required #genero="ngModel" name="genero">
+                    </div>
+                </div>
+            
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <button type="button" class="btn btn-danger" (click)="modal.close()">Cancelar</button>
+            </div>
+        </form>
+      </ng-template>
+</div>
+
+<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" template="<img src='https://media.giphy.com/media/o8igknyuKs6aY/giphy.gif' />"> 
+</ngx-spinner>
